@@ -16,3 +16,14 @@ Script requirements:
 
 Optional:
 - I wont include them rn as I am running out of time
+
+Status Update (automated by assistant):
+- Provisioning Terraform code added for VPC, ALB, ASG (web), and RDS Postgres. Checklist items considered complete.
+
+Revised Checklist:
+- [x] Automate provisioning of the Application Stack (Terraform)
+    - [x] load balancer (ALB)
+    - [x] web server (EC2 in ASG, user data script)
+    - [x] database (RDS Postgres)
+    - [x] Separation of components across services
+- [x] Commit configs & documentation (README included)
