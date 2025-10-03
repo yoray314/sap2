@@ -4,8 +4,8 @@ variable "project" {
 }
 
 variable "region" {
-  type    = string
-  default = "eu-central-1"
+  type        = string
+  default     = "eu-central-1"
   description = "AWS region to deploy resources (default Frankfurt)."
 }
 
@@ -20,7 +20,7 @@ variable "public_subnet_cidrs" {
 }
 
 variable "private_subnet_cidrs" {
-  type    = list(string)
+  type = list(string)
   # Need at least two subnets in different AZs for RDS subnet group coverage
   default = ["10.0.10.0/24", "10.0.11.0/24"]
 }
@@ -60,4 +60,10 @@ variable "web_app_revision" {
   type        = string
   description = "Change this to force a new launch template version & instance recycle when user_data logic changes"
   default     = "v1"
+}
+
+variable "alert_email" {
+  type        = string
+  default     = ""
+  description = "Email address to subscribe to infrastructure alerts (leave blank to skip subscription)"
 }

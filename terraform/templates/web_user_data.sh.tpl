@@ -22,12 +22,21 @@ EOF
 
 cat > /opt/web/server.py <<'EOF'
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import os
+import os, json
 
 INDEX_PATH = '/opt/web/index.html'
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
+        if self.path == '/health':
+            payload = json.dumps({'status': 'ok'})
+            data = payload.encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+            return
         try:
             with open(INDEX_PATH, 'rb') as f:
                 content = f.read()
@@ -36,13 +45,12 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header('Content-Length', str(len(content)))
             self.end_headers()
             self.wfile.write(content)
-        except Exception as e:
+        except Exception:
             self.send_response(500)
             self.end_headers()
             self.wfile.write(b'Internal Server Error')
 
     def log_message(self, format, *args):
-        # Quiet logging to avoid noisy syslog
         return
 
 if __name__ == '__main__':

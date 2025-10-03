@@ -20,9 +20,9 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  for_each          = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = each.value
+  for_each   = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
+  vpc_id     = aws_vpc.main.id
+  cidr_block = each.value
   # Distribute private subnets across AZs similar to public subnets
   availability_zone = data.aws_availability_zones.available.names[tonumber(each.key)]
   tags              = { Name = "${var.project}-private-${each.key}" }
